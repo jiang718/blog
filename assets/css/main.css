@@ -342,6 +342,16 @@ footer {
     border: 0;
 }
 
+.break_line {
+  border-top: 15px solid #333;
+  padding-top: 10px;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 /*
 ================================================================================
   Responsive styling

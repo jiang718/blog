@@ -4,48 +4,64 @@ title: Home
 ---
 
 <section class="archive">
+{% for category in site.categories %}
+    <div class="archive-item fadeInDown animated">
+    <h2>{{ category[0] }}</h2>
+    <div>
+    {% for post in category[1] %}
+      <article>
+        <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
+        <div class="post-date">
+          <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %B" }}</time>
+        </div>
+      </article>
+      {% if forloop.last %}
+       </div>
+       </div>
+      {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<div class="break_line"></div>
+</div>
 {% for post in site.posts %}
-{% unless post.next %}
+    <!-- 如果post没有下一个元素 -->
+    {% unless post.next %}
 
-  {% unless forloop.first %}
-    </div>
-  </div>
-  {% endunless %}
+        {% unless forloop.first %}
+            </div>
+            </div>
+        {% endunless %}
+        <div class="archive-item fadeInDown animated">
+        <h2>{{ post.date | date: '%Y' }}</h2>
+        <div>
+    <!--如果还有一条post -->
+    {% else %}
+        <!--读取两个post的年份，进行比较-->
+        {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+        {% capture next_year %}{{ post.next.date | date: '%Y' }}{% endcapture %}
+        <!--年份不相等，横线隔开-->
+        {% if year != next_year %}
+          {% unless forloop.first %}
+            </div>
+          </div>
+          {% endunless %}
 
-  <div class="archive-item fadeInDown animated">
-    <h2>{{ post.date | date: '%Y' }}</h2>
-    <div>
-
-{% else %}
-
-{% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
-{% capture next_year %}{{ post.next.date | date: '%Y' }}{% endcapture %}
-
-{% if year != next_year %}
-
-  {% unless forloop.first %}
-    </div>
-  </div>
-  {% endunless %}
-
-  <div class="archive-item fadeInDown animated">
-    <h2>{{ post.date | date: '%Y' }}</h2>
-    <div>
-
-{% endif %}
-{% endunless %}
-
-  <article>
-    <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
-    <div class="post-date">
-      <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %B" }}</time>
-    </div>
-  </article>
-
-  {% if forloop.last %}
-    </div>
-  </div>
-  {% endif %}
-
+          <div class="archive-item fadeInDown animated">
+            <h2>{{ post.date | date: '%Y' }}</h2>
+            <div>
+        {% endif %}
+    {% endunless %}
+      <article>
+        <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
+        <div class="post-date">
+          <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %B" }}</time>
+        </div>
+      </article>
+    <!--最后一条post，加入横线-->
+    {% if forloop.last %}
+        </div>
+       </div>
+    {% endif %}
 {% endfor %}
 </section>
